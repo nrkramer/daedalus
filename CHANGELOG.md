@@ -2,6 +2,10 @@
 
 ## vNext
 
+### Features
+
+- Improved wallet send form ([PR 2791](https://github.com/input-output-hk/daedalus/pull/2791))
+
 ### Fixes
 
 - Fixed receiver address validation by disallowing rewards addresses ([PR 2781](https://github.com/input-output-hk/daedalus/pull/2781))
