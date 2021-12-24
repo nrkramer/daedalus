@@ -215,7 +215,7 @@ export default class WalletSendForm extends Component<Props, State> {
     }
   };
 
-  handleOnSubmit = () => {
+  handleOnSubmit = async () => {
     if (this.isDisabled()) {
       return;
     }
@@ -416,6 +416,11 @@ export default class WalletSendForm extends Component<Props, State> {
         validateOnChange: true,
         validationDebounceWait: FORM_VALIDATION_DEBOUNCE_WAIT,
       },
+      hooks: {
+        onSuccess: () => {
+          this.handleOnSubmit();
+        },
+      },
     }
   );
 
@@ -566,6 +571,8 @@ export default class WalletSendForm extends Component<Props, State> {
           ...nextState,
           transactionFeeError,
         });
+
+        throw localizableError;
       }
     }
   };
@@ -1152,7 +1159,7 @@ export default class WalletSendForm extends Component<Props, State> {
                   className="primary"
                   label={intl.formatMessage(messages.sendButtonLabel)}
                   disabled={this.isDisabled()}
-                  onClick={this.handleOnSubmit}
+                  onClick={this.form.onSubmit}
                 />
               </div>
             </div>
