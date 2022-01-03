@@ -37,10 +37,15 @@ const messages = defineMessages({
     defaultMessage: '!!!Wallet',
     description: 'Table header "Wallet" label on staking rewards page',
   },
-  tableHeaderReward: {
-    id: 'staking.rewards.tableHeader.reward',
+  tableHeaderRewardTotal: {
+    id: 'staking.rewards.tableHeader.total',
     defaultMessage: '!!!Total (ADA)',
-    description: 'Table header "Reward" label on staking rewards page',
+    description: 'Table header "Total Reward" label on staking rewards page',
+  },
+  tableHeaderRewardUnspent: {
+    id: 'staking.rewards.tableHeader.unspent',
+    defaultMessage: '!!!Unspent (ADA)',
+    description: 'Table header "Unspent" label on staking rewards page',
   },
   tableHeaderRewardsAddress: {
     id: 'staking.rewards.tableHeader.rewardsAddress',
@@ -75,7 +80,8 @@ const REWARD_FIELDS = {
   WALLET_NAME: 'walletName',
   IS_RESTORING: 'isRestoring',
   SYNCING_PROGRESS: 'syncingProgress',
-  REWARD_AMOUNT: 'reward',
+  REWARD_TOTAL: 'total',
+  REWARD_UNSPENT: 'unspent',
   REWARDS_ADDRESS: 'rewardsAddress',
   ACTIONS: 'actions',
 };
@@ -121,9 +127,14 @@ export default class StakingRewards extends Component<Props, State> {
     const { rewards } = this.props;
     const { rewardsOrder, rewardsSortBy } = this.state;
     return rewards.slice().sort((rewardA: Reward, rewardB: Reward) => {
-      const rewardCompareResult = bigNumberComparator(
-        rewardA.reward,
-        rewardB.reward,
+      const totalCompareResult = bigNumberComparator(
+        rewardA.total,
+        rewardB.total,
+        rewardsOrder === REWARD_ORDERS.ASCENDING
+      );
+      const unspentCompareResult = bigNumberComparator(
+        rewardA.unspent,
+        rewardB.unspent,
         rewardsOrder === REWARD_ORDERS.ASCENDING
       );
       const walletNameCompareResult = stringComparator(
@@ -136,30 +147,39 @@ export default class StakingRewards extends Component<Props, State> {
         rewardB.rewardsAddress,
         rewardsOrder === REWARD_ORDERS.ASCENDING
       );
-      if (rewardsSortBy === REWARD_FIELDS.REWARD_AMOUNT) {
-        if (rewardCompareResult === 0 && walletAddressCompareResult === 0) {
+      if (rewardsSortBy === REWARD_FIELDS.REWARD_TOTAL) {
+        if (totalCompareResult === 0 && walletAddressCompareResult === 0) {
           return walletNameCompareResult;
         }
-        if (rewardCompareResult === 0 && walletNameCompareResult === 0) {
+        if (totalCompareResult === 0 && walletNameCompareResult === 0) {
           return walletAddressCompareResult;
         }
-        return rewardCompareResult;
+        return totalCompareResult;
+      }
+      if (rewardsSortBy === REWARD_FIELDS.REWARD_UNSPENT) {
+        if (unspentCompareResult === 0 && walletAddressCompareResult === 0) {
+          return walletNameCompareResult;
+        }
+        if (unspentCompareResult === 0 && walletNameCompareResult === 0) {
+          return walletAddressCompareResult;
+        }
+        return unspentCompareResult;
       }
       if (rewardsSortBy === REWARD_FIELDS.WALLET_NAME) {
         if (walletNameCompareResult === 0 && walletAddressCompareResult) {
-          return rewardCompareResult;
+          return totalCompareResult;
         }
-        if (rewardCompareResult === 0 && walletNameCompareResult === 0) {
+        if (totalCompareResult === 0 && walletNameCompareResult === 0) {
           return walletAddressCompareResult;
         }
         return walletNameCompareResult;
       }
       if (rewardsSortBy === REWARD_FIELDS.REWARDS_ADDRESS) {
-        if (walletAddressCompareResult === 0 && rewardCompareResult === 0) {
+        if (walletAddressCompareResult === 0 && totalCompareResult === 0) {
           return walletNameCompareResult;
         }
         if (walletAddressCompareResult === 0 && walletNameCompareResult === 0) {
-          return rewardCompareResult;
+          return totalCompareResult;
         }
         return walletAddressCompareResult;
       }
@@ -188,9 +208,15 @@ export default class StakingRewards extends Component<Props, State> {
         title: intl.formatMessage(messages.tableHeaderRewardsAddress),
       },
       {
-        name: REWARD_FIELDS.REWARD_AMOUNT,
+        name: REWARD_FIELDS.REWARD_TOTAL,
         title: `${intl.formatMessage(
-          messages.tableHeaderReward
+          messages.tableHeaderRewardTotal
+        )} (${intl.formatMessage(globalMessages.adaUnit)})`,
+      },
+      {
+        name: REWARD_FIELDS.REWARD_UNSPENT,
+        title: `${intl.formatMessage(
+          messages.tableHeaderRewardUnspent
         )} (${intl.formatMessage(globalMessages.adaUnit)})`,
       },
       {
@@ -270,9 +296,13 @@ export default class StakingRewards extends Component<Props, State> {
                       reward,
                       REWARD_FIELDS.SYNCING_PROGRESS
                     );
-                    const rewardAmount = get(
+                    const rewardTotal = get(
                       reward,
-                      REWARD_FIELDS.REWARD_AMOUNT
+                      REWARD_FIELDS.REWARD_TOTAL
+                    ).toFormat(DECIMAL_PLACES_IN_ADA);
+                    const rewardUnspent = get(
+                      reward,
+                      REWARD_FIELDS.REWARD_UNSPENT
                     ).toFormat(DECIMAL_PLACES_IN_ADA);
                     const rewardsAddress = get(
                       reward,
@@ -297,11 +327,18 @@ export default class StakingRewards extends Component<Props, State> {
                         <td className={styles.rewardsAddress}>
                           <Ellipsis string={rewardsAddress} />
                         </td>
-                        <td className={styles.rewardAmount}>
+                        <td className={styles.rewardTotal}>
                           {isRestoring ? (
                             '-'
                           ) : (
-                            <RewardAmount amount={rewardAmount} />
+                            <RewardAmount amount={rewardTotal} />
+                          )}
+                        </td>
+                        <td className={styles.rewardUnspent}>
+                          {isRestoring ? (
+                            '-'
+                          ) : (
+                            <RewardAmount amount={rewardUnspent} />
                           )}
                         </td>
                         <td className={styles.actions}>

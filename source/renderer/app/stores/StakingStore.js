@@ -522,16 +522,17 @@ export default class StakingStore extends Store {
           id: walletId,
           name: walletName,
           isRestoring,
-          reward: rewards,
+          reward: unspent,
           syncState,
         } = inputWallet;
-        const reward = rewards.plus(withdrawals[walletId]);
+        const total = unspent.plus(withdrawals[walletId]);
         const rewardsAddress = stakeAddresses[walletId];
         const syncingProgress = get(syncState, 'progress.quantity', '');
         return {
           walletId,
           walletName,
-          reward,
+          total,
+          unspent,
           isRestoring,
           syncingProgress,
           rewardsAddress,
