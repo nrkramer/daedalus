@@ -62,7 +62,8 @@ export type Reward = {
   date?: string,
   walletId: string,
   walletName: string,
-  reward: BigNumber,
+  total: BigNumber,
+  unspent: BigNumber,
   rewardsAddress: string,
   pool?: StakePool,
 };
