@@ -1154,6 +1154,8 @@
   "wallet.summary.currency.isFetchingRate": "fetching conversion rates",
   "wallet.summary.currency.lastFetched": "converted {fetchedTimeAgo}",
   "wallet.summary.currency.title": "Converts as",
+  "wallet.summary.header.rewardsEarned": "earned rewards,",
+  "wallet.summary.header.rewardsUnspent": "rewards unspent",
   "wallet.summary.header.pendingTransactionsLabel": "Number of pending transactions",
   "wallet.summary.header.transactionsLabel": "Number of transactions",
   "wallet.summary.noTokens.learnMore.linkLabel": "Learn more",

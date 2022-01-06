@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { take } from 'lodash';
 import { observer, inject } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
+import type { Reward } from '../../api/staking/types';
 import { MAX_TRANSACTIONS_ON_SUMMARY_PAGE } from '../../config/numbersConfig';
 import WalletTransactionsList from '../../components/wallet/transactions/WalletTransactionsList';
 import WalletSummary from '../../components/wallet/summary/WalletSummary';
@@ -66,6 +67,7 @@ export default class WalletSummaryPage extends Component<Props> {
       profile,
       assets,
       currency,
+      staking,
     } = stores;
     const { all, getAsset, assetSettingsDialogWasOpened, favorites } = assets;
     const { isInternalAddress } = addresses;
@@ -152,6 +154,7 @@ export default class WalletSummaryPage extends Component<Props> {
       <VerticalFlexContainer>
         <WalletSummary
           wallet={wallet}
+          reward={staking.getRewardForWallet(wallet)}
           numberOfRecentTransactions={recent.length}
           numberOfTransactions={totalAvailable}
           numberOfPendingTransactions={pendingTransactionsCount}

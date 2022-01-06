@@ -47,6 +47,15 @@
   }
 }
 
+.rewards {
+  @extend %smallText;
+  height: auto;
+}
+
+.rewardsAmount {
+  font-family: var(--font-medium);
+}
+
 .transactionsCountWrapper {
   .numberOfTransactions,
   .numberOfPendingTransactions {
