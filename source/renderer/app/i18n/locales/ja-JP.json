@@ -507,7 +507,7 @@
   "staking.rewards.no.rewards": "報酬なし",
   "staking.rewards.note": "ステークを委任することにより得た報酬は自動的に報酬アカウントに振り込まれ、ウォレット残高に追加されます。",
   "staking.rewards.tableHeader.total": "合計",
-  "staking.rewards.tableHeader.unspent": "未使用（ADA)",
+  "staking.rewards.tableHeader.unspent": "未使用",
   "staking.rewards.tableHeader.rewardsAddress": "報酬アドレス",
   "staking.rewards.tableHeader.wallet": "ウォレット",
   "staking.rewards.title": "獲得した委任報酬",
