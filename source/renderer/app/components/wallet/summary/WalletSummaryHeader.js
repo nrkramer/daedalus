@@ -4,6 +4,7 @@ import type { Node } from 'react';
 import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import classnames from 'classnames';
+import type { Reward } from '../../../api/staking/types';
 import globalMessages from '../../../i18n/global-messages';
 import BorderedBox from '../../widgets/BorderedBox';
 import styles from './WalletSummaryHeader.scss';
@@ -12,6 +13,18 @@ import { formattedWalletAmount } from '../../../utils/formatters';
 import { DiscreetValue } from '../../../features/discreet-mode';
 
 const messages = defineMessages({
+  rewardsEarned: {
+    id: 'wallet.summary.header.rewardsEarned',
+    defaultMessage: '!!!rewards earned',
+    description:
+      'Label describing the rewards earned amount on the Wallet summary header page',
+  },
+  rewardsUnspent: {
+    id: 'wallet.summary.header.rewardsUnspent',
+    defaultMessage: '!!!rewards unspent',
+    description:
+      'Label describing the rewards unspent amount on the Wallet summary header page',
+  },
   transactionsLabel: {
     id: 'wallet.summary.header.transactionsLabel',
     defaultMessage: '!!!Number of transactions',
@@ -27,6 +40,7 @@ const messages = defineMessages({
 
 type Props = {
   wallet: Wallet,
+  reward: Reward,
   numberOfRecentTransactions: number,
   numberOfTransactions?: number,
   numberOfPendingTransactions: number,
@@ -43,6 +57,7 @@ export default class WalletSummaryHeader extends Component<Props> {
   render() {
     const {
       wallet,
+      reward,
       numberOfPendingTransactions,
       numberOfRecentTransactions,
       numberOfTransactions,
@@ -82,6 +97,40 @@ export default class WalletSummaryHeader extends Component<Props> {
                 <span className={styles.currencyCode}>
                   {intl.formatMessage(globalMessages.adaUnit)}
                 </span>
+              </div>
+              <div className={styles.rewards}>
+                <span className={styles.rewardsAmount}>
+                  <DiscreetValue>
+                    {isRestoreActive
+                      ? '-'
+                      : formattedWalletAmount(
+                          reward.total,
+                          true,
+                          false,
+                          'ADA',
+                          1
+                        )}
+                  </DiscreetValue>
+                </span>{' '}
+                {intl.formatMessage(messages.rewardsEarned)}{' '}
+                {!reward.unspent.isZero() && (
+                  <>
+                    <span className={styles.rewardsAmount}>
+                      <DiscreetValue>
+                        {isRestoreActive
+                          ? '-'
+                          : formattedWalletAmount(
+                              reward.unspent,
+                              true,
+                              false,
+                              'ADA',
+                              1
+                            )}
+                      </DiscreetValue>
+                    </span>{' '}
+                    {intl.formatMessage(messages.rewardsUnspent)}
+                  </>
+                )}
               </div>
               {!isLoadingTransactions && (
                 <div className={styles.transactionsCountWrapper}>

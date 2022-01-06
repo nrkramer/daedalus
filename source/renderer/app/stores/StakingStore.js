@@ -504,40 +504,32 @@ export default class StakingStore extends Store {
 
   @computed
   get rewards(): Array<Reward> {
-    const { wallets, transactions, addresses } = this.stores;
-    const { withdrawals } = transactions;
-    const { stakeAddresses } = addresses;
+    const { wallets, transactions } = this.stores;
     return wallets.allWallets
-      .filter((inputWallet: Wallet) => {
-        const { id: walletId, reward, isRestoring } = inputWallet;
-        if (isRestoring) {
-          return true;
-        }
-        const withdrawal = withdrawals[walletId];
-        const total = reward.plus(withdrawal);
-        return !total.isZero();
+      .filter((wallet: Wallet) => {
+        const { id, reward, isRestoring } = wallet;
+        if (isRestoring) return true;
+        const withdrawal = transactions.withdrawals[id];
+        return !reward.plus(withdrawal).isZero();
       })
-      .map((inputWallet: Wallet) => {
-        const {
-          id: walletId,
-          name: walletName,
-          isRestoring,
-          reward: unspent,
-          syncState,
-        } = inputWallet;
-        const total = unspent.plus(withdrawals[walletId]);
-        const rewardsAddress = stakeAddresses[walletId];
-        const syncingProgress = get(syncState, 'progress.quantity', '');
-        return {
-          walletId,
-          walletName,
-          total,
-          unspent,
-          isRestoring,
-          syncingProgress,
-          rewardsAddress,
-        };
-      });
+      .map((walletWithBalance: Wallet) =>
+        this.getRewardForWallet(walletWithBalance)
+      );
+  }
+
+  getRewardForWallet(wallet: Wallet): Reward {
+    const { transactions, addresses } = this.stores;
+    const rewardsAddress = addresses.stakeAddresses[wallet.id];
+    const syncingProgress = get(wallet.syncState, 'progress.quantity', '');
+    return {
+      walletId: wallet.id,
+      walletName: wallet.name,
+      total: wallet.reward.plus(transactions.withdrawals[wallet.id]),
+      unspent: wallet.reward,
+      isRestoring: wallet.isRestoring,
+      syncingProgress,
+      rewardsAddress,
+    };
   }
 
   @computed get isFetchingRewardsHistory() {
