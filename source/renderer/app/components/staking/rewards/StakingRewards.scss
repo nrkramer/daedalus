@@ -308,7 +308,6 @@
 
       &.rewardWallet {
         max-width: 200px;
-        min-width: 200px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -344,7 +343,7 @@
           max-width: 420px;
         }
         @media (max-width: 1024px) {
-          max-width: 300px;
+          max-width: 219px;
         }
 
         > div {
