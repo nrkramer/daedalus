@@ -354,7 +354,7 @@ export default class WalletSendForm extends Component<Props, State> {
                 try {
                   await this.calculateTransactionFee();
                 } catch (err) {
-                  return [false, this.context.intl.formatMessage(err)];
+                  return [false, err];
                 }
               } else {
                 this.resetTransactionFee();
@@ -392,7 +392,7 @@ export default class WalletSendForm extends Component<Props, State> {
                 try {
                   await this.calculateTransactionFee();
                 } catch (err) {
-                  return [false, this.context.intl.formatMessage(err)];
+                  return [false, err];
                 }
               } else {
                 this.resetTransactionFee();
@@ -473,12 +473,14 @@ export default class WalletSendForm extends Component<Props, State> {
       transactionFeeError: null,
       isCalculatingTransactionFee: true,
     }));
+
     try {
       const { fee, minimumAda } = await this.props.calculateTransactionFee(
         receiver,
         adaAmount,
         assets
       );
+
       if (
         this._isMounted &&
         this.isLatestTransactionFeeRequest(
@@ -572,8 +574,9 @@ export default class WalletSendForm extends Component<Props, State> {
             />
           );
         } else {
-          transactionFeeError = (
-            <FormattedHTMLMessage {...localizableError} values={values} />
+          transactionFeeError = this.context.intl.formatMessage(
+            localizableError,
+            values
           );
         }
 
@@ -582,7 +585,7 @@ export default class WalletSendForm extends Component<Props, State> {
           transactionFeeError,
         });
 
-        throw localizableError;
+        throw transactionFeeError;
       }
     }
   };
@@ -635,11 +638,11 @@ export default class WalletSendForm extends Component<Props, State> {
 
     switch (adaInputState) {
       case 'updated':
-        adaAmountField.onChange(minimumAda.toFormat());
+        adaAmountField.onChange(minimumAda.toString());
         break;
       case 'restored':
       case 'reset':
-        adaAmountField.onChange(this.state.adaAmountInputTrack.toFormat());
+        adaAmountField.onChange(this.state.adaAmountInputTrack.toString());
         break;
       case 'none':
       default:
@@ -668,10 +671,10 @@ export default class WalletSendForm extends Component<Props, State> {
     const { formFields } = this.state;
     const { adaAmount: adaAmountField } = formFields.receiver;
 
-    adaAmountField.onChange(value);
+    adaAmountField.onChange(value != null ? value : '');
 
     this.setState({
-      adaAmountInputTrack: new BigNumber(value),
+      adaAmountInputTrack: new BigNumber(value != null ? value : 0),
     });
   };
 
@@ -793,7 +796,7 @@ export default class WalletSendForm extends Component<Props, State> {
           try {
             await this.calculateTransactionFee(true);
           } catch (err) {
-            return [false, this.context.intl.formatMessage(err)];
+            return [false, err];
           }
         } else {
           this.resetTransactionFee();
