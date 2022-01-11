@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import type { Reward } from '../../../api/staking/types';
 import globalMessages from '../../../i18n/global-messages';
 import BorderedBox from '../../widgets/BorderedBox';
+import { QuestionMarkTooltip } from '../../widgets/tooltips/QuestionMarkTooltip';
 import styles from './WalletSummaryHeader.scss';
 import Wallet from '../../../domains/Wallet';
 import { formattedWalletAmount } from '../../../utils/formatters';
@@ -17,13 +18,20 @@ const messages = defineMessages({
     id: 'wallet.summary.header.rewardsEarned',
     defaultMessage: '!!!rewards earned',
     description:
-      'Label describing the rewards earned amount on the Wallet summary header page',
+      'Label describing the rewards earned amount on the Wallet summary header',
   },
   rewardsUnspent: {
     id: 'wallet.summary.header.rewardsUnspent',
     defaultMessage: '!!!rewards unspent',
     description:
-      'Label describing the rewards unspent amount on the Wallet summary header page',
+      'Label describing the rewards unspent amount on the Wallet summary header',
+  },
+  rewardsUnspendable: {
+    id: 'wallet.summary.header.rewardsUnspendable',
+    defaultMessage:
+      '!!!info message about unspendable rewards due to missing utxos',
+    description:
+      'Tooltip describing that rewards are unspendable on the Wallet summary header',
   },
   transactionsLabel: {
     id: 'wallet.summary.header.transactionsLabel',
@@ -113,23 +121,29 @@ export default class WalletSummaryHeader extends Component<Props> {
                   </DiscreetValue>
                 </span>{' '}
                 {intl.formatMessage(messages.rewardsEarned)}{' '}
-                {!reward.unspent.isZero() && (
-                  <>
-                    <span className={styles.rewardsAmount}>
-                      <DiscreetValue>
-                        {isRestoreActive
-                          ? '-'
-                          : formattedWalletAmount(
-                              reward.unspent,
-                              true,
-                              false,
-                              'ADA',
-                              1
-                            )}
-                      </DiscreetValue>
-                    </span>{' '}
-                    {intl.formatMessage(messages.rewardsUnspent)}
-                  </>
+                {!reward.unspent.isZero() &&
+                  reward.unspent.isLessThan(reward.total) && (
+                    <>
+                      <span className={styles.rewardsAmount}>
+                        <DiscreetValue>
+                          {isRestoreActive
+                            ? '-'
+                            : formattedWalletAmount(
+                                reward.unspent,
+                                true,
+                                false,
+                                'ADA',
+                                1
+                              )}
+                        </DiscreetValue>
+                      </span>{' '}
+                      {intl.formatMessage(messages.rewardsUnspent)}
+                    </>
+                  )}
+                {wallet.amount.isEqualTo(reward.total) && (
+                  <QuestionMarkTooltip
+                    content={intl.formatMessage(messages.rewardsUnspendable)}
+                  />
                 )}
               </div>
               {!isLoadingTransactions && (
