@@ -1156,7 +1156,7 @@
   "wallet.summary.currency.title": "Converts as",
   "wallet.summary.header.pendingTransactionsLabel": "Number of pending transactions",
   "wallet.summary.header.rewardsEarned": "earned rewards",
-  "wallet.summary.header.rewardsUnspendable": "All of the ada in this wallet is in the rewards account. Since transaction fees cannot be paid with rewards, please send 2 or more ada to this wallet to make the rewards spendable.",
+  "wallet.summary.header.rewardsUnspendable": "All the ada in this wallet is in the rewards account. Since transaction fees cannot be paid with rewards, please send 2 or more ada to this wallet to cover transaction fees.",
   "wallet.summary.header.rewardsUnspent": "rewards unspent",
   "wallet.summary.header.transactionsLabel": "Number of transactions",
   "wallet.summary.noTokens.learnMore.linkLabel": "Learn more",

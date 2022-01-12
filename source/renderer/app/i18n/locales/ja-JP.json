@@ -1156,7 +1156,7 @@
   "wallet.summary.currency.title": "換算通貨：",
   "wallet.summary.header.pendingTransactionsLabel": "処理中のトランザクション数",
   "wallet.summary.header.rewardsEarned": "獲得した報酬",
-  "wallet.summary.header.rewardsUnspendable": "このウォレットのADAはすべて報酬アカウントに入っています。トランザクション手数料に報酬を使用することはできないため、報酬を送金できるようにするために、このウォレットに2ADA以上入金してください。",
+  "wallet.summary.header.rewardsUnspendable": "このウォレットのADAはすべて報酬アカウントに入っています。トランザクション手数料に報酬を使用することはできないため、このウォレットに手数料分として2ADA以上入金してください。",
   "wallet.summary.header.rewardsUnspent": " 未使用の報酬",
   "wallet.summary.header.transactionsLabel": "トランザクション数",
   "wallet.summary.noTokens.learnMore.linkLabel": "もっと知る",
