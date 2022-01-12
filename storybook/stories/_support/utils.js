@@ -5,6 +5,7 @@ import JSONBigInt from 'json-bigint';
 import moment from 'moment';
 import { random, get } from 'lodash';
 import BigNumber from 'bignumber.js';
+import type { Reward } from '../../../source/renderer/app/api/staking/types';
 import Wallet, {
   WalletSyncStateStatuses,
 } from '../../../source/renderer/app/domains/Wallet';
@@ -138,6 +139,16 @@ export const generateWallet = (
       RECOVERY_PHRASE_VERIFICATION_TYPES.NEVER_VERIFIED,
     delegatedStakePoolId: get(delegatedStakePool, 'id'),
   });
+
+export const generateRewardForWallet = (wallet: Wallet): Reward => ({
+  walletId: wallet.id,
+  walletName: wallet.name,
+  total: wallet.reward,
+  unspent: new BigNumber(0),
+  isRestoring: wallet.isRestoring,
+  syncingProgress: 100,
+  rewardsAddress: 'stake_fake_address',
+});
 
 export const generateAssetDomain = (
   policyId: string,

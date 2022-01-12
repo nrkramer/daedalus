@@ -9,6 +9,7 @@ import { action } from '@storybook/addon-actions';
 import {
   generateAssetToken,
   generateHash,
+  generateRewardForWallet,
   generateWallet,
 } from '../../_support/utils';
 import WalletsWrapper from '../_utils/WalletsWrapper';
@@ -200,9 +201,19 @@ storiesOf('Wallets|Summary', module)
 
     const [firstAsset] = walletAssets;
 
+    const wallet = generateWallet(
+      'Wallet name',
+      '45119903750165',
+      assets,
+      1131
+    );
+    const reward = generateRewardForWallet(wallet);
+    console.log(wallet.amount);
+
     return (
       <WalletSummary
-        wallet={generateWallet('Wallet name', '45119903750165', assets)}
+        wallet={wallet}
+        reward={reward}
         numberOfTransactions={number(
           'Number of transactions',
           100,

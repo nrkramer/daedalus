@@ -44,7 +44,7 @@ const generatePool = (index: number) => ({
 
 const generateEpoch = (index: number) => 130 + index;
 
-const generateReward = (index: number) =>
+const generateRewardHistoryAmount = (index: number) =>
   new BigNumber(35 + index).dividedBy(LOVELACES_PER_ADA);
 
 const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -56,7 +56,7 @@ export const getRewardsHistory = (
   map(Array(numberOfItems).fill(), (x, index) => ({
     epoch: generateEpoch(index),
     pool: generatePool(index),
-    amount: generateReward(index),
+    amount: generateRewardHistoryAmount(index),
     isUnpaid: isLastItemUnpaid
       ? numberOfItems > 1 && index + 1 === numberOfItems
       : false,
