@@ -19,11 +19,16 @@
     .AutocompleteOverrides_autocompleteContent,
     .SimpleInput_customValueBlock,
     .SimpleInput_customValueWrapper,
-    .SimpleInput_input,
-    .SimpleInput_input:focus,
-    .SimpleInput_input:hover,
+    .SimpleInput_input:not(:read-only),
+    .SimpleInput_input:focus:not(:read-only),
+    .SimpleInput_input:hover:not(:read-only),
     .SimpleLink_root {
+      // TODO
       background-color: transparent !important;
+    }
+
+    .SimpleInput_input:read-only {
+      background-color: red !important;
     }
 
     .SimpleOptions_option {
@@ -110,12 +115,14 @@
     .AutocompleteOverrides_autocompleteContent:not(.SimpleAutocomplete_errored),
     .SelectOverrides_selectInput input,
     .SimpleInput_customValueBlock,
-    .SimpleInput_customValueWrapper .SimpleInput_input,
-    .SimpleInput_input:focus:not(.SimpleInput_errored),
-    .SimpleInput_input:hover:not(.SimpleInput_errored),
+    .SimpleInput_customValueWrapper .SimpleInput_input:not(:read-only),
+    .SimpleInput_input:focus:not(.SimpleInput_errored):not(:read-only),
+    .SimpleInput_input:hover:not(.SimpleInput_errored):not(:read-only),
     .SimpleLink_root,
     .SimpleOptions_option:after {
+      // TODO
       background-color: transparent !important;
+      // TODO
       border-color: var(--theme-dialog-fullsize-text-color) !important;
     }
 
