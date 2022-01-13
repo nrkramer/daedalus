@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { boolean, select, number } from '@storybook/addon-knobs';
+import type { Reward } from '../../../source/renderer/app/api/staking/types';
 
 // Screens
 import StakingRewardsHistoryDialog from '../../../source/renderer/app/components/staking/rewards/StakingRewardsHistoryDialog';
@@ -50,14 +51,17 @@ export const StakingRewardsHistoryStory = ({
     rewards = [];
   }
 
-  const reward = {
+  const reward: Reward = {
     date: now.toString(),
     walletId: '1',
     walletName: 'Wallet name',
-    reward: rewardsResults[0].amount,
+    total: rewardsResults[0].amount,
+    unspent: 0,
     rewardsAddress:
       'stake_test1upqaj6kvt9w69uraqtdfsv2q7l4000k5n5y4r26hnkzenmsel3qv9',
     pool: rewardsResults[0].pool,
+    isRestoring: false,
+    syncingProgress: 100,
   };
 
   return (

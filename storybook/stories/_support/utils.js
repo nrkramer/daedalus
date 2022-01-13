@@ -111,7 +111,7 @@ export const generateWallet = (
   name: string,
   amount: string,
   assets?: WalletTokens = { available: [], total: [] },
-  reward?: string = '0',
+  reward?: string | number = 0,
   delegatedStakePool?: StakePool,
   hasPassword?: boolean,
   status?: SyncStateStatus = WalletSyncStateStatuses.READY,
