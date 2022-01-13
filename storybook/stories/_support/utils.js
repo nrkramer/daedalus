@@ -111,7 +111,7 @@ export const generateWallet = (
   name: string,
   amount: string,
   assets?: WalletTokens = { available: [], total: [] },
-  reward?: number = 0,
+  reward?: string = '0',
   delegatedStakePool?: StakePool,
   hasPassword?: boolean,
   status?: SyncStateStatus = WalletSyncStateStatuses.READY,
@@ -140,11 +140,14 @@ export const generateWallet = (
     delegatedStakePoolId: get(delegatedStakePool, 'id'),
   });
 
-export const generateRewardForWallet = (wallet: Wallet): Reward => ({
+export const generateRewardForWallet = (
+  wallet: Wallet,
+  unspent: string = '0'
+): Reward => ({
   walletId: wallet.id,
   walletName: wallet.name,
   total: wallet.reward,
-  unspent: new BigNumber(0),
+  unspent: new BigNumber(unspent).dividedBy(LOVELACES_PER_ADA),
   isRestoring: wallet.isRestoring,
   syncingProgress: 100,
   rewardsAddress: 'stake_fake_address',

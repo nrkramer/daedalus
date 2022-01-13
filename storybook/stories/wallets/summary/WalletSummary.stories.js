@@ -6,6 +6,7 @@ import { boolean, number, select, text } from '@storybook/addon-knobs';
 
 // Assets and helpers
 import { action } from '@storybook/addon-actions';
+import WalletSummaryHeader from '../../../../source/renderer/app/components/wallet/summary/WalletSummaryHeader';
 import {
   generateAssetToken,
   generateHash,
@@ -17,6 +18,7 @@ import currenciesList from '../../../../source/renderer/app/config/currenciesLis
 
 // Screens
 import WalletSummary from '../../../../source/renderer/app/components/wallet/summary/WalletSummary';
+import { WalletSummaryHeaderDecorator } from './decorators/WalletSummaryHeaderDecorator';
 
 const allAssets = [
   generateAssetToken(
@@ -205,10 +207,9 @@ storiesOf('Wallets|Summary', module)
       'Wallet name',
       '45119903750165',
       assets,
-      1131
+      '11311213'
     );
     const reward = generateRewardForWallet(wallet);
-    console.log(wallet.amount);
 
     return (
       <WalletSummary
@@ -275,6 +276,30 @@ storiesOf('Wallets|Summary', module)
         )}
         onExternalLinkClick={action('onExternalLinkClick')}
         onViewAllButtonClick={action('onViewAllButtonClick')}
+      />
+    );
+  });
+storiesOf('Wallets|Summary|Header', module)
+  .addDecorator(WalletSummaryHeaderDecorator)
+  .add('Wallet Summary Header', () => {
+    const rewardsGroup = 'Rewards';
+    const wallet = generateWallet(
+      'Wallet name',
+      text('wallet total', '4564321263', rewardsGroup),
+      assets,
+      text('rewards total', '4141123', rewardsGroup)
+    );
+    const reward = generateRewardForWallet(
+      wallet,
+      text('unspent rewards', '0', rewardsGroup)
+    );
+    return (
+      <WalletSummaryHeader
+        wallet={wallet}
+        reward={reward}
+        numberOfRecentTransactions={0}
+        numberOfPendingTransactions={0}
+        isLoadingTransactions={false}
       />
     );
   });

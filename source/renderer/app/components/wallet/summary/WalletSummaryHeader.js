@@ -140,7 +140,7 @@ export default class WalletSummaryHeader extends Component<Props> {
                       {intl.formatMessage(messages.rewardsUnspent)}
                     </>
                   )}
-                {wallet.amount.isEqualTo(reward.total) && (
+                {wallet.amount.isEqualTo(reward.unspent) && (
                   <QuestionMarkTooltip
                     content={intl.formatMessage(messages.rewardsUnspendable)}
                   />
