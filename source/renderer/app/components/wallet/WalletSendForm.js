@@ -982,7 +982,7 @@ export default class WalletSendForm extends Component<Props, State> {
                           messages.updateAdaAmountButton
                         )}
                         onClick={this.updateAdaAmount}
-                      />{' '}
+                      />
                       <span>
                         {intl.formatMessage(
                           messages.updateAdaAmountDescription,
