@@ -627,7 +627,7 @@ export const WHITE_THEME_OUTPUT = {
     '--rp-input-bg-color': '#fff',
     '--rp-input-bg-color-disabled': 'rgba(45, 45, 45, 0.05)',
     '--rp-input-border-color': 'rgba(45, 45, 45, 0.3)',
-    '--rp-input-border-color-disabled': 'rgba(45, 45, 45, 0.05)',
+    '--rp-input-border-color-disabled': 'transparent',
     '--rp-input-border-color-errored': '#ea4c5b',
     '--rp-input-border-color-focus': 'rgba(45, 45, 45, 0.7)',
     '--rp-input-line-height': '22px',

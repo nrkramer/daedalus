@@ -45,8 +45,9 @@
         .SelectOverrides_selectInput:after {
           opacity: 0.5;
         }
-        .SimpleFormField_inputWrapper {
-          // TODO
+
+        .SimpleFormField_inputWrapper:not(:read-only) {
+          // TODO find out why Michael added that - it contradicts with requirements received from Sasha
           opacity: 0.5;
         }
       }

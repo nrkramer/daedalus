@@ -23,12 +23,12 @@
     .SimpleInput_input:focus:not(:read-only),
     .SimpleInput_input:hover:not(:read-only),
     .SimpleLink_root {
-      // TODO
       background-color: transparent !important;
     }
 
     .SimpleInput_input:read-only {
-      background-color: red !important;
+      background-color: var(--rp-input-bg-color-disabled) !important;
+      border-color: var(--rp-input-border-color-disabled) !important;
     }
 
     .SimpleOptions_option {
@@ -113,16 +113,14 @@
 
     // Border Color
     .AutocompleteOverrides_autocompleteContent:not(.SimpleAutocomplete_errored),
-    .SelectOverrides_selectInput input,
+    .SelectOverrides_selectInput input:not(:read-only),
     .SimpleInput_customValueBlock,
     .SimpleInput_customValueWrapper .SimpleInput_input:not(:read-only),
     .SimpleInput_input:focus:not(.SimpleInput_errored):not(:read-only),
     .SimpleInput_input:hover:not(.SimpleInput_errored):not(:read-only),
     .SimpleLink_root,
     .SimpleOptions_option:after {
-      // TODO
       background-color: transparent !important;
-      // TODO
       border-color: var(--theme-dialog-fullsize-text-color) !important;
     }
 
