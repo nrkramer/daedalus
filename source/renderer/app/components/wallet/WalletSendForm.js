@@ -215,7 +215,7 @@ export default class WalletSendForm extends Component<Props, State> {
     }
   };
 
-  handleOnSubmit = async () => {
+  handleOnSubmit = () => {
     if (this.isDisabled()) {
       return;
     }
@@ -906,8 +906,6 @@ export default class WalletSendForm extends Component<Props, State> {
               this.addFocusableField(field);
             }}
             className="receiver"
-            data-testid="receiver"
-            aria-labelledby={receiverField.bind().label}
             error={receiverFieldError}
             onChange={(value) => {
               receiverField.onChange(value || '');
