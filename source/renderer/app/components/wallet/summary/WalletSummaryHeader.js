@@ -94,6 +94,14 @@ export default class WalletSummaryHeader extends Component<Props> {
       ? '-'
       : formattedWalletAmount(wallet.amount, false);
 
+    const rewardTotalAmount = reward.total.isLessThan(0.1)
+      ? '< 0.1 ADA'
+      : formattedWalletAmount(reward.total, true, false, 'ADA', 1);
+
+    const rewardUnspentAmount = reward.unspent.isLessThan(0.1)
+      ? '< 0.1 ADA'
+      : formattedWalletAmount(reward.unspent, true, false, 'ADA', 1);
+
     return (
       <div className={styles.component}>
         <BorderedBox>
@@ -109,15 +117,7 @@ export default class WalletSummaryHeader extends Component<Props> {
               <div className={styles.rewards}>
                 <span className={styles.rewardsAmount}>
                   <DiscreetValue>
-                    {isRestoreActive
-                      ? '-'
-                      : formattedWalletAmount(
-                          reward.total,
-                          true,
-                          false,
-                          'ADA',
-                          1
-                        )}
+                    {isRestoreActive ? '-' : rewardTotalAmount}
                   </DiscreetValue>
                 </span>{' '}
                 {intl.formatMessage(messages.rewardsEarned)}{' '}
@@ -126,15 +126,7 @@ export default class WalletSummaryHeader extends Component<Props> {
                     <>
                       <span className={styles.rewardsAmount}>
                         <DiscreetValue>
-                          {isRestoreActive
-                            ? '-'
-                            : formattedWalletAmount(
-                                reward.unspent,
-                                true,
-                                false,
-                                'ADA',
-                                1
-                              )}
+                          {isRestoreActive ? '-' : rewardUnspentAmount}
                         </DiscreetValue>
                       </span>{' '}
                       {intl.formatMessage(messages.rewardsUnspent)}
