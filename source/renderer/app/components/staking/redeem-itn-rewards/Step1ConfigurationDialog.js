@@ -273,16 +273,9 @@ export default class Step1ConfigurationDialog extends Component<Props> {
     const checkboxAcceptance2Field = form.$('checkboxAcceptance2');
     const walletId = get(wallet, 'id', null);
 
-    const validRecoveryPhase = recoveryPhraseField.isValid;
-
     const buttonClasses = classnames([
       'primary',
       isCalculatingReedemFees ? styles.isSubmitting : null,
-    ]);
-
-    const walletsDropdownClasses = classnames([
-      styles.walletsDropdown,
-      !validRecoveryPhase ? styles.disabled : null,
     ]);
 
     const actions = {
@@ -371,7 +364,6 @@ export default class Step1ConfigurationDialog extends Component<Props> {
           />
           <div className={styles.walletsDropdownWrapper}>
             <WalletsDropdown
-              className={walletsDropdownClasses}
               {...walletsDropdownField.bind()}
               numberOfStakePools={4}
               wallets={wallets}
@@ -382,6 +374,7 @@ export default class Step1ConfigurationDialog extends Component<Props> {
               value={walletId}
               getStakePoolById={() => {}}
               errorPosition="bottom"
+              disabled={!recoveryPhraseField.isValid}
             />
           </div>
           <Checkbox
