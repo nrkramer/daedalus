@@ -102,6 +102,8 @@ export default class WalletSettings extends Component<Props> {
               />
             </div>
             <Select
+              // TODO left for testing - remove before marking PR as ready
+              // disabled={true}
               label={intl.formatMessage(messages.currencySelectLabel)}
               value={currencySelected ? currencySelected.code : null}
               options={currencyOptions}
